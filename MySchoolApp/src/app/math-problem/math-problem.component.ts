@@ -1,18 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button'
 import {MatInputModule} from '@angular/material/input'
 import {MatIconModule} from '@angular/material/icon'
+import { Client, EMathOperation, EProfile, MathProblem } from '../api-client';
 
-interface MathProblem {
-  operand1: number;
-  operand2: number;
-  operator: number;
-  result: number;
-  answer: number;
+class MathProblemEx extends MathProblem{
+  answer?: number;
 }
+
 
 @Component({
   selector: 'app-math-problem',
@@ -21,12 +18,13 @@ interface MathProblem {
   imports: [FormsModule, NgFor, MatButtonModule, MatInputModule, MatIconModule]
 })
 export class MathProblemComponent implements OnInit {
-  problems: MathProblem[] = [];
+  problems: MathProblemEx[] = [];
+  EMathOperation = EMathOperation;
 
-  constructor(private http: HttpClient) {}
+  constructor(private client: Client) {}
 
   ngOnInit(): void {
-    this.http.get<MathProblem[]>('http://localhost:5115/MathProblem?profile=1').subscribe(data => {
+    this.client.getMathProblem(EProfile.Kris).subscribe(data => {
       this.problems = data;
     });
   }

@@ -1,4 +1,6 @@
 
+using System.Text.Json.Serialization;
+
 namespace MySchoolApi;
 
 public class Program
@@ -9,7 +11,11 @@ public class Program
 
         // Add services to the container.
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
         builder.Services.AddCors(options =>
@@ -19,6 +25,8 @@ public class Program
                 policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
             });
         });
+
+        builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         var app = builder.Build();
 

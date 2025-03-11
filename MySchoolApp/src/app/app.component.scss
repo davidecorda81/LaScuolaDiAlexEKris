@@ -1,6 +1,21 @@
-.toolbar-spacer {
+.toolbar-item-spacer {
   flex: 1 1 auto;
 }
+
+.app-container {
+  margin: 0;
+} 
+ 
+.app-sidenav {
+  width: 230px;
+}
+.app-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+} 
+
 .profile-icon {
   font-size: 40px;
   width: 40px;

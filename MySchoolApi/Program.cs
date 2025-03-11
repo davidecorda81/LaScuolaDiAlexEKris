@@ -22,7 +22,7 @@ public class Program
         {
             options.AddPolicy("AllowFrontend", policy =>
             {
-                policy.WithOrigins("http://localhost:4200","https://calm-hill-00ba49603.4.azurestaticapps.net").AllowAnyHeader().AllowAnyMethod();
+                policy.WithOrigins("http://localhost:4200","https://calm-hill-00ba49603.4.azurestaticapps.net", "https://lascuoladialexekris.ch").AllowAnyHeader().AllowAnyMethod();
             });
         });
 

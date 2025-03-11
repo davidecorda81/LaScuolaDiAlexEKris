@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { API_BASE_URL, Client } from './api-client';
 import { environment } from '../environments/environment';
+import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), 
@@ -13,6 +14,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(), 
     provideAnimationsAsync(), 
     Client,
-    {provide: API_BASE_URL, useValue: environment.apiBaseUrl}
+    {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
+    {provide: MAT_ICON_DEFAULT_OPTIONS,
+    useValue: { fontSet: 'material-icons-outlined' } } // Set default to outlined
+
   ]
 };

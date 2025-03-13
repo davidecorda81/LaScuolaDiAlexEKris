@@ -1,19 +1,19 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button (click)="sidenav.toggle()" matTooltip="Menu">
+  <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon>menu</mat-icon>
   </button>
   <span>La scuola di Alex e Kris</span>
   <span class="toolbar-item-spacer"></span>
-  <button mat-icon-button matTooltip="Like">
+  <button mat-icon-button >
       <mat-icon>favorite</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Share">
+  <button mat-icon-button>
       <mat-icon>share</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Notifications">
+  <button mat-icon-button>
       <mat-icon>notifications</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
+  <button mat-icon-button [matMenuTriggerFor]="userAccountMenu">
       <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">

@@ -4,7 +4,7 @@ using MySchoolApi.Models;
 namespace MySchoolApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class MathProblemController : ControllerBase
 {
     private readonly ILogger<MathProblemController> _logger;

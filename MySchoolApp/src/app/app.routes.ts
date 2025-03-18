@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
 import { MathProblemComponent } from './math-problem/math-problem.component';
-export const routes: Routes = [   { path: 'calcoli', component: MathProblemComponent },
+import { StoryComponent } from './story/story.component';
+export const routes: Routes = [   
+    { path: 'calcoli', component: MathProblemComponent },
+    { path: 'storie', component: StoryComponent },
 ];

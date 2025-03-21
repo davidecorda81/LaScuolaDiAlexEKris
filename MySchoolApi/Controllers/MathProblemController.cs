@@ -37,7 +37,7 @@ public class MathProblemController : ControllerBase
     {
         var res = new List<MathProblem>();
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 10; i++)
         {
             var o1 = Random.Shared.Next(0, 50);
             var o2 = Random.Shared.Next(0, 50);

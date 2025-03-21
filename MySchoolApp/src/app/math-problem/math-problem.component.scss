@@ -1,7 +1,13 @@
-.calc-content{
-    display: flex;
-    flex-flow: wrap;
+.calculation-card{
+    max-width: 600px;
+    margin: 10px;
 }
-mat-form-field{
-    padding: 5px;
+.calc-content {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-evenly;
 }
+mat-form-field {
+  padding: 5px;
+}
+  

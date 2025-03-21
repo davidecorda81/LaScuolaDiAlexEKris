@@ -13,3 +13,16 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.calculation-card{
+  .correct{
+    > div:first-child{
+      background-color: aquamarine;
+    }
+  }
+  .incorrect{
+    > div:first-child{
+      background-color: lightcoral;
+    }
+  }
+
+}

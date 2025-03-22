@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { Client, EMathOperation, EProfile, MathProblem } from '../api-client';
+import { SharedService } from '../shared.service';
 
 class MathProblemEx extends MathProblem {
   answer?: number;
@@ -34,15 +35,23 @@ export class MathProblemComponent implements OnInit {
   problems: MathProblemEx[] = [];
   EMathOperation = EMathOperation;
   checked: boolean = false;
+  kid: EProfile|null = null;
 
-  constructor(private client: Client) {}
+  constructor(private client: Client, private sharedService: SharedService ) {}
 
   ngOnInit(): void {
-    this.getProblems();
+    this.sharedService.kid$.subscribe(value => {
+      this.kid = value;
+      this.checked = false;
+      console.log('Kid value:', this.kid);
+      this.getProblems();
+    });
   }
 
   private getProblems() {
-    this.client.getMathProblem(EProfile.Kris).subscribe((data) => {
+    if(this.kid === null)
+      throw new Error("kid is null");
+    this.client.getMathProblem(this.kid).subscribe((data) => {
       this.problems = data;
     });
   }
@@ -58,4 +67,15 @@ export class MathProblemComponent implements OnInit {
       problem.isCorrect = problem.answer == problem.result;
     });
   }
+
+  getOperator(operator: EMathOperation|undefined) {
+    switch(operator){
+      case EMathOperation.Add: return '+';
+      case EMathOperation.Subtract: return '-';
+      case EMathOperation.Multiply: return '*';
+      case EMathOperation.Divide: return '/';
+      default: throw new Error("Invalid operator"); 
+    }
+    }
+    
 }

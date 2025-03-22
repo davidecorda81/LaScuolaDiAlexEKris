@@ -5,7 +5,7 @@
 .app-container {
   height: 90%;
   margin: 0;
-}  
+}
 
 .app-sidenav {
   width: 230px;
@@ -15,7 +15,7 @@
   height: 100%;
   align-items: flex-start;
   justify-content: center;
-} 
+}
 
 .profile-icon {
   font-size: 40px;
@@ -26,3 +26,30 @@
   background-color: #f0f0f0;
   padding: 4px;
 }
+
+.toolbar-alex{
+  background-color: lightblue;
+}
+
+.selected-menu-alex{
+  background-color: steelblue;
+}
+
+.toolbar-kris{
+  background-color: lightgoldenrodyellow;
+}
+
+.selected-menu-kris{
+  background-color: khaki;
+}
+
+
+// .toolbar-alex {
+//   mat-icon {
+//     background-color: steelblue;
+//   }
+//   background-color: lightblue;
+// }
+// .toolbar-kris {
+//   background-color: lightblue;
+// }

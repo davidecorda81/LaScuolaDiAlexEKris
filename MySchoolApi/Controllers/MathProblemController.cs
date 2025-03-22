@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Validations;
 using MySchoolApi.Models;
 
 namespace MySchoolApi.Controllers;
@@ -58,6 +59,43 @@ public class MathProblemController : ControllerBase
 
     private IEnumerable<MathProblem> GenerateAlexMathProblems()
     {
-        return new List<MathProblem>().ToArray();
+        var res = new List<MathProblem>();
+        for (int i = 0; i < 10; i++)
+        {
+            var r = Random.Shared.Next(0, 4);
+            var op = (EMathOperation)r;
+
+            int o1;
+            int o2;
+            int result;
+            if (op == EMathOperation.Add || op == EMathOperation.Subtract)
+            {
+                o1 = Random.Shared.Next(0, 500);
+                o2 = Random.Shared.Next(0, 500);
+                result = op == EMathOperation.Add ? o1 + o2 : o1 - o2;
+            }
+            else
+            {
+                o1 = Random.Shared.Next(1, 30);
+                o2 = Random.Shared.Next(0, 15);
+                result = o1 * o2;
+                if (op == EMathOperation.Divide)
+                {
+                    var tmp = result;
+                    result = o2;
+                    o2 = o1;
+                    o1 = tmp;
+                }
+            }
+
+            res.Add(new MathProblem()
+            {
+                Operand1 = o1,
+                Operand2 = o2,
+                Operator = op,
+                Result = result
+            });
+        }
+        return res.ToArray();
     }
 }

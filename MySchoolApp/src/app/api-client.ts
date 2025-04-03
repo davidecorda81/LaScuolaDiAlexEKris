@@ -30,7 +30,7 @@ export class Client {
      * @param profile (optional) 
      * @return OK
      */
-    getMathProblem(profile: EProfile | undefined): Observable<MathProblem[]> {
+    getMathProblem(profile: Profile | undefined): Observable<MathProblem[]> {
         let url_ = this.baseUrl + "/api/MathProblem?";
         if (profile === null)
             throw new Error("The parameter 'profile' cannot be null.");
@@ -75,6 +75,64 @@ export class Client {
                 result200 = [] as any;
                 for (let item of resultData200)
                     result200!.push(MathProblem.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getWords(): Observable<WordRecord[]> {
+        let url_ = this.baseUrl + "/api/German";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWords(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWords(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<WordRecord[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<WordRecord[]>;
+        }));
+    }
+
+    protected processGetWords(response: HttpResponseBase): Observable<WordRecord[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(WordRecord.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -146,11 +204,6 @@ export enum EMathOperation {
     Subtract = "Subtract",
     Multiply = "Multiply",
     Divide = "Divide",
-}
-
-export enum EProfile {
-    Alex = "Alex",
-    Kris = "Kris",
 }
 
 export class MathProblem implements IMathProblem {
@@ -263,6 +316,63 @@ export interface IStory {
     content: string;
 
     [key: string]: any;
+}
+
+export class WordRecord implements IWordRecord {
+    italianWord?: string;
+    germanWord?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IWordRecord) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.italianWord = _data["italianWord"];
+            this.germanWord = _data["germanWord"];
+        }
+    }
+
+    static fromJS(data: any): WordRecord {
+        data = typeof data === 'object' ? data : {};
+        let result = new WordRecord();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["italianWord"] = this.italianWord;
+        data["germanWord"] = this.germanWord;
+        return data;
+    }
+}
+
+export interface IWordRecord {
+    italianWord?: string;
+    germanWord?: string;
+
+    [key: string]: any;
+}
+
+export enum Profile {
+    Alex = "Alex",
+    Kris = "Kris",
 }
 
 export class ApiException extends Error {

@@ -1,5 +1,6 @@
 
 using System.Text.Json.Serialization;
+using MySchoolApi.Services;
 
 namespace MySchoolApi;
 
@@ -8,6 +9,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddSingleton<CsvDataService>(); // Singleton instance
 
         // Add services to the container.
 

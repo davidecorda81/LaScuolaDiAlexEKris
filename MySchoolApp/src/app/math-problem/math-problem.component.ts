@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { Client, EMathOperation, EProfile, MathProblem } from '../api-client';
+import { Client, EMathOperation, MathProblem, EProfile } from '../api-client';
 import { SharedService } from '../shared.service';
 
 class MathProblemEx extends MathProblem {

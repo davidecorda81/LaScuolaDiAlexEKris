@@ -1,4 +1,10 @@
-<mat-toolbar color="primary" [ngClass]="{'toolbar-alex': kid == profiles.Alex, 'toolbar-kris': kid == profiles.Kris}">
+<mat-toolbar
+  color="primary"
+  [ngClass]="{
+    'toolbar-alex': kid == profiles.Alex,
+    'toolbar-kris': kid == profiles.Kris
+  }"
+>
   <button mat-icon-button (click)="sidenav.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -8,10 +14,18 @@
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-    <button mat-menu-item (click)="setKid(profiles.Alex)" [ngClass]="{'selected-menu-alex': kid == profiles.Alex}">
+    <button
+      mat-menu-item
+      (click)="setKid(profiles.Alex)"
+      [ngClass]="{ 'selected-menu-alex': kid == profiles.Alex }"
+    >
       <mat-icon>person</mat-icon><span>Alex</span>
     </button>
-    <button mat-menu-item (click)="setKid(profiles.Kris)" [ngClass]="{'selected-menu-kris': kid == profiles.Kris}">
+    <button
+      mat-menu-item
+      (click)="setKid(profiles.Kris)"
+      [ngClass]="{ 'selected-menu-kris': kid == profiles.Kris }"
+    >
       <mat-icon>person</mat-icon><span>Kris</span>
     </button>
     <button mat-menu-item routerLink="#">
@@ -36,6 +50,9 @@
               >calculate</mat-icon
             ><span>Calcoli</span>
           </a>
+          <a mat-list-item routerLink="/conversioni" routerLinkActive="true"
+            >Conversioni</a
+          >
         </mat-nav-list>
       </mat-expansion-panel>
       <mat-expansion-panel [class.mat-elevation-z0]="true">
@@ -44,7 +61,18 @@
           <a mat-list-item routerLink="/storie" routerLinkActive="true"
             >Storie</a
           >
-          <a mat-list-item routerLink="/errori">Strova l'errore</a>
+          <a mat-list-item routerLink="/sillabe">Sillabe speciali</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header> Tedesco </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a
+            mat-list-item
+            routerLink="/vocaboli-tedesco"
+            routerLinkActive="true"
+            >Vocaboli</a
+          >
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-nav-list>

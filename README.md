@@ -28,4 +28,5 @@ Setup proxy for npm and git (only with post PC)
 - git config --global https.proxy <http://localhost:3128>
 
 Generate client to consume api
-npx nswag openapi2tsclient /input:<http://localhost:5115/openapi/v1.json> /output:src/app/api-client.ts /TypeScriptVersion:5.7 /InjectionTokenType:'InjectionToken' /RxJsVersion:7.8 /template:Angular
+
+npx nswag openapi2tsclient /input:<http://localhost:5115/openapi/v1.json> /output:src/app/api-client.ts /TypeScriptVersion:5.7 /InjectionTokenType:InjectionToken /RxJsVersion:7.8 /template:Angular

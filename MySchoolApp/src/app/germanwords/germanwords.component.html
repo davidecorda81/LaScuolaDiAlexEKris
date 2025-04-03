@@ -1,11 +1,12 @@
-<mat-card appearance="outlined" class="calculation-card">
+<mat-card appearance="outlined" class="word-card">
     <mat-card-header>
       <mat-card-title>Vocaboli</mat-card-title>
     </mat-card-header>
-    <mat-card-content class="calc-content">
-      <div *ngFor="let word of words; let i = index">
+    <mat-card-content class="word-content">
+      <div *ngFor="let word of words; let i = index" >
+        <label [matTooltip]="checked?word.germanWord:null">{{word.italianWord}}</label>
         <mat-form-field [ngClass]="{'correct': word.isCorrect && checked, 'incorrect': !word.isCorrect && checked}">
-          <mat-label>{{word.italianWord}}</mat-label>
+          <!-- <mat-label>{{word.italianWord}}</mat-label> -->
           <input matInput type="text" [(ngModel)]="word.answer"/>
         </mat-form-field>
       </div>

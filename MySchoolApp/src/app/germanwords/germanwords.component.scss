@@ -1,0 +1,11 @@
+.word-content{
+    >div{
+        display: flex; 
+        justify-content: space-between; 
+        align-items: baseline;
+    }
+}
+
+label {
+    margin-right: 10px;
+}

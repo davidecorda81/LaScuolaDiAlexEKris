@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySchoolApi.Models;
 using MySchoolApi.Services;
 using OpenAI.Chat;
+using System.Linq;
 
 namespace MyApp.Namespace
 {
@@ -29,7 +30,8 @@ namespace MyApp.Namespace
         [HttpGet(Name = "GetWords")]
         public List<WordRecord> GetAsync()
         {
-            return csvDataService.GetGermanWords();
+            var random = new Random();
+            return csvDataService.GetGermanWords().OrderBy(_ => random.Next()).Take(10).ToList();
         }
     }
 }

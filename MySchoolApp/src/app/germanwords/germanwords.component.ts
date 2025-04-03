@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 class WordQuestion {
   answer: string = '';
@@ -26,6 +27,7 @@ class WordQuestion {
     MatIconModule,
     MatCardModule,
     ReactiveFormsModule,
+    MatTooltipModule,
   ],
   templateUrl: './germanwords.component.html',
   styleUrl: './germanwords.component.scss',

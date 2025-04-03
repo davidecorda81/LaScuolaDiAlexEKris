@@ -1,6 +1,6 @@
 namespace MySchoolApi.Models;
 
-public enum EProfile
+public enum EProfile 
 {
     Alex,
     Kris

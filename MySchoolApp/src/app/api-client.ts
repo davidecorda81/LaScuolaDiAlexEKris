@@ -30,7 +30,7 @@ export class Client {
      * @param profile (optional) 
      * @return OK
      */
-    getMathProblem(profile: Profile | undefined): Observable<MathProblem[]> {
+    getMathProblem(profile: EProfile | undefined): Observable<MathProblem[]> {
         let url_ = this.baseUrl + "/api/MathProblem?";
         if (profile === null)
             throw new Error("The parameter 'profile' cannot be null.");
@@ -206,6 +206,11 @@ export enum EMathOperation {
     Divide = "Divide",
 }
 
+export enum EProfile {
+    Alex = "Alex",
+    Kris = "Kris",
+}
+
 export class MathProblem implements IMathProblem {
     operand1?: number;
     operand2?: number;
@@ -368,11 +373,6 @@ export interface IWordRecord {
     germanWord?: string;
 
     [key: string]: any;
-}
-
-export enum Profile {
-    Alex = "Alex",
-    Kris = "Kris",
 }
 
 export class ApiException extends Error {

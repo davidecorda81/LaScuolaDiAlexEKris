@@ -14,7 +14,7 @@ export class StoryComponent {
   constructor(private client: Client) {}
 
   ngOnInit(): void {
-    this.client.getStory().subscribe(data => {
+    this.client.story().subscribe(data => {
       this.story = data;
     });
   }

@@ -150,8 +150,8 @@ export class Client {
     /**
      * @return OK
      */
-    getStory(): Observable<Story> {
-        let url_ = this.baseUrl + "/api/Italian";
+    syllables(): Observable<SyllablesRecord[]> {
+        let url_ = this.baseUrl + "/api/Italian/Syllables";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -163,11 +163,69 @@ export class Client {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetStory(response_);
+            return this.processSyllables(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetStory(response_ as any);
+                    return this.processSyllables(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SyllablesRecord[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SyllablesRecord[]>;
+        }));
+    }
+
+    protected processSyllables(response: HttpResponseBase): Observable<SyllablesRecord[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SyllablesRecord.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    story(): Observable<Story> {
+        let url_ = this.baseUrl + "/api/Italian/Story";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStory(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<Story>;
                 }
@@ -176,7 +234,7 @@ export class Client {
         }));
     }
 
-    protected processGetStory(response: HttpResponseBase): Observable<Story> {
+    protected processStory(response: HttpResponseBase): Observable<Story> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -319,6 +377,62 @@ export class Story implements IStory {
 export interface IStory {
     title: string;
     content: string;
+
+    [key: string]: any;
+}
+
+export class SyllablesRecord implements ISyllablesRecord {
+    word?: string;
+    answer?: string;
+    option?: string;
+
+    [key: string]: any;
+
+    constructor(data?: ISyllablesRecord) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.word = _data["word"];
+            this.answer = _data["answer"];
+            this.option = _data["option"];
+        }
+    }
+
+    static fromJS(data: any): SyllablesRecord {
+        data = typeof data === 'object' ? data : {};
+        let result = new SyllablesRecord();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["word"] = this.word;
+        data["answer"] = this.answer;
+        data["option"] = this.option;
+        return data;
+    }
+}
+
+export interface ISyllablesRecord {
+    word?: string;
+    answer?: string;
+    option?: string;
 
     [key: string]: any;
 }

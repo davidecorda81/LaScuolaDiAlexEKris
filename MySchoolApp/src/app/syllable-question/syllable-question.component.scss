@@ -1,0 +1,42 @@
+.syllables-card{
+    min-width: 200px;
+    margin: 10px;;
+}
+
+mat-card-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+@keyframes flashGreen {
+    0%   { background-color: transparent; }
+    25%  { background-color: #c8facc; } /* light green */
+    50%  { background-color: #b2f5b2; } /* stronger green */
+    75%  { background-color: #c8facc; }
+    100% { background-color: transparent; }
+  }
+  
+  .correct {
+    animation: flashGreen 0.8s ease-in-out;
+    border-color: green;
+    mat-card-title{
+      color: green;
+      font-weight: bold;
+    }
+  }
+
+  .incorrect{
+    animation: flashRed 0.8s ease-in-out;
+    border-color: red;
+  }
+
+  @keyframes flashRed {
+    0%   { background-color: transparent; }
+    25%  { background-color: #fac8c8; } /* light green */
+    50%  { background-color: #e28585; } /* stronger green */
+    75%  { background-color: #fac8c8; }
+    100% { background-color: transparent; }
+  }
+  

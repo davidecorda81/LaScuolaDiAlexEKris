@@ -19,19 +19,6 @@ public class MathProblemController : ControllerBase
     public IEnumerable<MathProblem> Get(EProfile profile)
     {
         return profile == EProfile.Alex ? GenerateAlexMathProblems() : GenerateKrisMathProblems();
-        return Enumerable.Range(1, 5).Select(_ =>
-        {
-            var operand1 = Random.Shared.Next(0, 100);
-            var operand2 = Random.Shared.Next(0, 100);
-            return new MathProblem
-            {
-                Operand1 = operand1,
-                Operand2 = operand2,
-                Operator = EMathOperation.Add,
-                Result = operand1 + operand2,
-            };
-        })
-        .ToArray();
     }
 
     private IEnumerable<MathProblem> GenerateKrisMathProblems()

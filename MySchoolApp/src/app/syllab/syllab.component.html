@@ -1,1 +1,6 @@
-<p>syllab works!</p>
+<div class="syllab-container">
+  <div *ngFor="let word of words; let i = index">
+    <app-syllable-question [word]="word"></app-syllable-question>
+  </div>
+</div>
+<button mat-button (click)="refresh()">Refresh</button>

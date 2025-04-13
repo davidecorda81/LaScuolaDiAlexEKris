@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySchoolApi.Models;
+using MySchoolApi.Services;
 using OpenAI.Chat;
 
 namespace MyApp.Namespace
@@ -15,15 +16,24 @@ namespace MyApp.Namespace
     {
         private readonly ILogger<ItalianController> _logger;
         private readonly IConfiguration configuration;
+        private readonly CsvDataService csvDataService;
 
-        public ItalianController(ILogger<ItalianController> logger,  IConfiguration configuration)
+        public ItalianController(ILogger<ItalianController> logger, IConfiguration configuration, CsvDataService csvDataService)
         {
             _logger = logger;
             this.configuration = configuration;
+            this.csvDataService = csvDataService;
         }
 
-        [HttpGet(Name = "GetStory")]
-        public Story GetAsync()
+        [HttpGet("Syllables")]
+        public List<SyllablesRecord> GetSyllablesAsync()
+        {
+            var random = new Random();
+            return csvDataService.GetSyllables().OrderBy(_ => random.Next()).Take(5).ToList();
+        }
+
+        [HttpGet("Story")]
+        public Story GetStoryAsync()
         {
             ChatClient client = new(
                 model: "gpt-4o",
@@ -48,7 +58,7 @@ namespace MyApp.Namespace
                     Content = splittedText[1]
                 };
             }
-            
+
             return new Story
             {
                 Title = "",
